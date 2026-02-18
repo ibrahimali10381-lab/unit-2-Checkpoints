@@ -13,9 +13,10 @@ void draw(){
   strokeWeight(5);
   ellipse(300,x,200,200);
   x += 1;
-  if (x >= 800){
+  if (x >= 700){
     x= 0;
   }
 }
+
 
 
