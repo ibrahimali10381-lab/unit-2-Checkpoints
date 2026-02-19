@@ -10,8 +10,9 @@ void draw(){
   background(255);
   ellipse(x,300,200,200);
   x -= 1;
-  if (x<=0){
-   x=600;
+  if (x<=-100){
+   x=700;
   }
 }
+
 
