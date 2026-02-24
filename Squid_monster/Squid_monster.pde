@@ -4,8 +4,8 @@ int x;
 int y;
 int t;
 
-float b;          // stored firing angle
-float inkDist;    // distance ink travels
+float b;        
+float inkDist;  
 
 void setup() {
   size(800, 800, P2D);
@@ -14,11 +14,9 @@ void setup() {
 void draw() {
   background(blue);
 
-  // delay before shooting ink
   if (x <= 50) {
     x++;
   } else {
-    // store angle once when ink starts
     if (t == 0) {
       b = atan2(mouseY - 400, mouseX - 400);
     }
@@ -29,7 +27,6 @@ void draw() {
     t++;
     y++;
 
-    // reset after ink finishes
     if (y >= 100) {
       x = 0;
       t = 0;
@@ -73,7 +70,6 @@ void ink(float dist, float angle) {
   noStroke();
   fill(0);
 
-  // shoot straight between the tentacles
   ellipse(0, -dist, 100, 100);
   ellipse(-12, -dist, 100, 100);
   ellipse(0, -dist + 34, 100, 100);
@@ -83,3 +79,4 @@ void ink(float dist, float angle) {
 
   popMatrix();
 }
+
