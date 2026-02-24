@@ -4,8 +4,8 @@ int x;
 int y;
 int t;
 
-float b;        
-float inkDist;  
+float b;
+float inkDist;
 
 void setup() {
   size(800, 800, P2D);
@@ -39,14 +39,19 @@ void draw() {
 }
 
 void eye(int p, int q) {
-  popMatrix();
-  strokeWeight(1);
-  translate(400+p,400+q);
-  fill(255);
-  ellipse(0,0,50,50);
-  fill(0);
-  ellipse(0,0,25,25);
   pushMatrix();
+  strokeWeight(1);
+  translate(p, q);
+  fill(255);
+  ellipse(0, 0, 50, 50);
+  popMatrix();
+  pushMatrix();
+  translate(p,q);
+  float ang = atan2(-mouseY + y, -mouseX + x);
+  translate(ang + TWO_PI,ang + TWO_PI);
+  fill(0);
+  ellipse(0, 0, 25, 25);
+  popMatrix();
 }
 void jellyfish(int x, int y) {
   pushMatrix();
@@ -68,8 +73,14 @@ void jellyfish(int x, int y) {
   line(100, -200, 100, 10);
   ellipse(100, 50, 10, 10);
   ellipse(-100, 50, 10, 10);
-  
-  eye(100,-100);
+
+  eye(100, -100);
+  eye(100, -30);
+  eye(100, -170);
+  eye(-100, -100);
+  eye(-100, -30);
+  eye(-100, -170);
+
 
   popMatrix();
 }
