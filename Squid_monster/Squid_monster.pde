@@ -40,18 +40,25 @@ void draw() {
 
 void jellyfish(int x, int y) {
   pushMatrix();
-  fill(255);
   translate(x, y);
-  rotate(radians(-mouseY));
+
+  float angle = atan2(mouseY - y, mouseX - x);
+  rotate(angle + HALF_PI);
+
+  fill(255);
   noStroke();
-  arc(-0, 50, 300, 100, PI, TWO_PI);
+  arc(0, 50, 300, 100, PI, TWO_PI);
+
   strokeWeight(10);
   stroke(0);
-  arc(-0, 50, 300, 200, 0, PI);
+  arc(0, 50, 300, 200, 0, PI);
+
   line(-100, -200, -100, 10);
   line(100, -200, 100, 10);
+
   ellipse(100, 50, 10, 10);
   ellipse(-100, 50, 10, 10);
+
   popMatrix();
 }
 
@@ -74,3 +81,4 @@ void ink(int z, int w, int t, int a) {
 
   popMatrix();
 }
+
