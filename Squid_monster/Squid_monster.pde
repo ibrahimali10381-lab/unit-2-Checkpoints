@@ -1,10 +1,11 @@
 color blue = #0502D8;
 int x;
 int y;
-int t;
 int z;
+int t;
 int w;
-int a;
+float b;
+int time;
 
 void setup() {
   size(800, 800, P2D);
@@ -16,34 +17,32 @@ void draw() {
   background(blue);
   if (x <= 50) {
     x += 1;
-  }
-  else {
-    ink(z, w, t, a);
+  } else {
+    ink(z, w,b);
     z += 5;
     w += 5;
     t += 1;
     y += 1;
+    if (t==1) {
+    float angle = atan2(mouseY - y, mouseX - x);
+    b = angle;
+  }
     if (y >= 100) {
       x=0;
+      t=0;
       z=0;
-      t =0;
       w=0;
       y=0;
     }
   }
-  if (x == 50 && x <= 50){
-  a = -mouseY-135;
-  }
   jellyfish(400, 400);
-
 }
 
 void jellyfish(int x, int y) {
   pushMatrix();
   translate(x, y);
-
-  float angle = atan2(mouseY - y, mouseX - x);
-  rotate(angle + HALF_PI);
+  float ang = atan2(mouseY - y, mouseX - x);
+  rotate(ang + HALF_PI);
 
   fill(255);
   noStroke();
@@ -62,13 +61,10 @@ void jellyfish(int x, int y) {
   popMatrix();
 }
 
-void ink(int z, int w, int t, int a) {
+void ink(int z, int w, float b) {
   pushMatrix();
   translate(400, 400);
-  if (t<= 2) {
-    a = (-mouseY -135);
-  }
-  rotate(radians(a));
+  rotate(b + HALF_PI +90);
 
   noStroke();
   fill(0);
@@ -81,4 +77,3 @@ void ink(int z, int w, int t, int a) {
 
   popMatrix();
 }
-
