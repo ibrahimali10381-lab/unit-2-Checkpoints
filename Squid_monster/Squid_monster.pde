@@ -38,6 +38,16 @@ void draw() {
   jellyfish(400, 400);
 }
 
+void eye(int p, int q) {
+  popMatrix();
+  strokeWeight(1);
+  translate(400+p,400+q);
+  fill(255);
+  ellipse(0,0,50,50);
+  fill(0);
+  ellipse(0,0,25,25);
+  pushMatrix();
+}
 void jellyfish(int x, int y) {
   pushMatrix();
   translate(x, y);
@@ -52,12 +62,14 @@ void jellyfish(int x, int y) {
   strokeWeight(10);
   stroke(0);
   arc(0, 50, 300, 200, 0, PI);
+  strokeWeight(15);
 
   line(-100, -200, -100, 10);
   line(100, -200, 100, 10);
-
   ellipse(100, 50, 10, 10);
   ellipse(-100, 50, 10, 10);
+  
+  eye(100,-100);
 
   popMatrix();
 }
@@ -79,4 +91,3 @@ void ink(float dist, float angle) {
 
   popMatrix();
 }
-
