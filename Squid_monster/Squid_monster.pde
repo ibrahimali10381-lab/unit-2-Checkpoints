@@ -12,10 +12,13 @@ void setup() {
 
 void draw() {
   background(blue);
-
+  
+  //timer
   if (x <= 50) {
     x++;
-  } else {
+  }
+  //inkshot
+  else {
     if (t == 0) {
       b = atan2(mouseY - 400, mouseX - 400);
     }
@@ -23,7 +26,8 @@ void draw() {
     inkDist += 8;
     t++;
     y++;
-
+    
+    //reset
     if (y >= 100) {
       x = 0;
       t = 0;
@@ -35,13 +39,18 @@ void draw() {
   jellyfish(400, 400);
 }
 
+//eye function
 void eye(int p, int q,int xsize, int ysize) {
+  
+  //bulb
   pushMatrix();
   strokeWeight(1);
   translate(p, q);
   fill(255);
   ellipse(0, 0, xsize, ysize);
   popMatrix();
+  
+  //pupuil looking
   pushMatrix();
   translate(p,q);
   float ang = atan2(mouseY - (height/2 + p), mouseX - (width/2 + p));
@@ -56,6 +65,8 @@ void eye(int p, int q,int xsize, int ysize) {
   
 }
 void jellyfish(int x, int y) {
+  
+  //rotation and face
   pushMatrix();
   translate(x, y);
 
@@ -70,6 +81,8 @@ void jellyfish(int x, int y) {
   stroke(0);
   arc(0, 50, 300, 200, 0, PI);
   strokeWeight(15);
+  
+  //tentacle and eyes
 
   line(-100, -200, -100, 10);
   line(100, -200, 100, 10);
@@ -87,24 +100,27 @@ void jellyfish(int x, int y) {
   popMatrix();
 }
 
+
+//ink function
 void ink(int dist, float angle) {
+  
+  //rotate
   pushMatrix();
   translate(400, 400);
   rotate(angle + HALF_PI);
 
   noStroke();
   fill(0);
-
+  
+  
+  //eye
   eye(0, -dist, 100, 100);
   eye(-12, -dist, 100, 100);
   eye(0, -dist + 34, 100, 100);
   eye(41, -dist + 61, 100, 100);
   eye(76, -dist - 22, 100, 100);
   eye(-13, -dist + 123, 100, 100);
-  popMatrix();
-}
-
-void tentacle(int r, int xp, int yp){
   
-}
+  popMatrix();
 
+}
