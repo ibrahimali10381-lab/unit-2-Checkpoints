@@ -1,5 +1,6 @@
 float movex;
-int x = -20;
+float x = -20;
+float randmove = 1.0;
 int t = 0;
 
 void setup() {
@@ -12,27 +13,67 @@ void setup() {
 void draw() {
   wall();
   road();
+
+  movex = random(2);
+
+
+  x = camMove(x, randmove, movex);
   camera(50, 300, x);
+  if (t>10) {
+    randmove = random(-1, 1);
+    t = 0;
+  } else {
+    t = t +1;
+  }
+
+
+  movex = random(2);
+
+  x = camMove(x, randmove, movex);
   camera(250, 300, x);
+  if (t>10) {
+    randmove = random(-1, 1);
+    t = 0;
+  } else {
+    t = t +1;
+  }
+
+  movex = random(2);
+
+  x = camMove(x, randmove, movex);
   camera(450, 300, x);
+  if (t>20) {
+    randmove = random(-1, 1);
+    t = 0;
+  } else {
+    t = t +1;
+  }
+
+  movex = random(2);
+
+  x = camMove(x, randmove, movex);
   camera(650, 300, x);
+  if (t>30) {
+    randmove = random(-1, 1);
+    t = 0;
+  } else {
+    t = t +1;
+  }
+
+  movex = random(2);
+
+  x = camMove(x, randmove, movex);
   camera(850, 300, x);
 
-
-  if (t==1) {
-    if (x>=-20 && x<=20) {
-      movex += 1;
-      x += movex;
-      t =0;
-    } else {
-      movex -= 1;
-      x += movex;
-      t =0;
-    }
+  if (t>40) {
+    randmove = random(-1, 1);
+    t = 0;
   } else {
-    t = 1;
+    t = t +1;
   }
 }
+
+
 void road() {
   pushMatrix();
   translate(0, 700);
@@ -59,7 +100,7 @@ void wall() {
   popMatrix();
 }
 
-void camera(int Camx, int Camy, int x) {
+void camera(int Camx, int Camy, float x) {
   pushMatrix();
   translate(Camx, Camy);
 
@@ -73,4 +114,20 @@ void camera(int Camx, int Camy, int x) {
   fill(0);
   ellipse(x+20, 0, 20, 20);
   popMatrix();
+}
+
+float camMove(float x, float rand, float speed) {
+  if (x > 20) {
+    rand = 1;
+  } else if (x < -20) {
+    rand = -1;
+  }
+
+  if (rand < 0) {
+    x = x+speed;
+    return x;
+  } else {
+    x = x-speed;
+    return x;
+  }
 }
