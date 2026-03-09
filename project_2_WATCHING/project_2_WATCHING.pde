@@ -8,9 +8,9 @@ int carmovement = 800;
 int car2 = 0;
 boolean started = false;
 int randcar = 1;
+int p = 0;
 
-float Cam1;
-float Cam2;
+
 
 float r1 = random(0, 255);
 float g1 = random(0, 255);
@@ -32,18 +32,12 @@ void draw() {
   road();
 
   if (started == false) {
-    r1 = 80;
-    g1 = 78;
-    b1 = 75;
     randcar = int(random(6));
-  } 
-  else if (randcar == 0) {
+  } else if (randcar == 0) {
 
     randcar = 0;
-  }
-  
-  else{
-   randcar = 1; 
+  } else {
+    randcar = 1;
   }
 
   car(800, carmovement, r1, g1, b1, randcar);
@@ -53,21 +47,21 @@ void draw() {
   movex = random(2);
 
 
-  Cam1 = camMove(x, randmove, movex);
-  camera(50, 300, Cam1);
+  x = camMove(x, randmove, movex, randcar);
+  camera(50, 300, x);
 
-  Cam2 = camMove(x, randmove, movex);
-  camera(250, 300, Cam2);
+  x = camMove(x, randmove, movex, randcar);
+  camera(250, 300, x);
 
 
-  x = camMove(x, randmove, movex);
+  x = camMove(x, randmove, movex, randcar);
   camera(450, 300, x);
 
 
-  x = camMove(x, randmove, movex);
+  x = camMove(x, randmove, movex, randcar);
   camera(650, 300, x);
 
-  x = camMove(x, randmove, movex);
+  x = camMove(x, randmove, movex, randcar);
   camera(850, 300, x);
 
 
@@ -79,25 +73,29 @@ void draw() {
     carmovement = 950;
     started = false;
   }
-  
-  wantedcar(100,350);
-  eyes(450,450,z);
-  
-  if (time > 3600){
-   s = true; 
-  }
 
-  
-  else{
+  wantedcar(100, 350);
+  eyes(400, 100, z);
+
+
+  if (z >= 50) {
+    s = false;
+    time = time +1;
+    if (time>3500) {
+      z =0;
+      time  = 0;
+    }
+  } else if (time > 3000) {
+    s = true;
+  } else {
     s = false;
     z = 0;
     time +=1;
   }
-  
-  if (s == true){
-   z+=1; 
+
+  if (s == true) {
+    z+=1;
   }
-  
 }
 
 
@@ -164,6 +162,11 @@ void camera(int Camx, int Camy, float x) {
 
   fill(0);
   ellipse(x+20, 0, 20, 20);
+
+  if (randcar ==0 && time%2 ==0) {
+    fill(255, 0, 0);
+    ellipse(x+25, -5, 7, 7);
+  }
   popMatrix();
 }
 
@@ -173,7 +176,7 @@ void camera(int Camx, int Camy, float x) {
 
 
 
-float camMove(float x, float rand, float speed) {
+float camMove(float x, float rand, float speed, int randomcar) {
 
   float save = x;
   speed = random(2);
@@ -184,22 +187,35 @@ float camMove(float x, float rand, float speed) {
   } else {
     x = x- speed/2;
   }
-
-
-  if (x > 30) {
-    x = save;
-    if (second()%5 == 0) {
-      rand = 1;
-      return x;
+  if (x <-20) {
+    x = -19;
+  }
+  if (randomcar == 0) {
+    x = 30 - p;
+    if (time % 5 ==0) {
+      p = p+1;
+    }
+    else if (p>80){
+      p = 0;
     }
     return x;
-  } else if (x < -20) {
-    x = save;
-    if (second()%5 == 0) {
-      rand = -1;
+  } else if (p >50 || randomcar !=0) {
+    p =0;
+    if (x > 30) {
+      x = save;
+      if (second()%5 == 0) {
+        rand = 1;
+        return x;
+      }
+      return x;
+    } else if (x < -20) {
+      x = save;
+      if (second()%5 == 0) {
+        rand = -1;
+        return x;
+      }
       return x;
     }
-    return x;
   }
   return x;
 }
@@ -209,13 +225,10 @@ float camMove(float x, float rand, float speed) {
 
 
 
-void car(int y, int carmove, float r1, float g1, float b1, int rands) {
+void car(int y, int carmove, float r, float g, float b, int rands) {
   pushMatrix();
   translate(carmove, y);
 
-  float r = 255;
-  float b = 0;
-  float g = 0;
 
 
   if (rands == 0) {
@@ -235,14 +248,14 @@ void car(int y, int carmove, float r1, float g1, float b1, int rands) {
   } else {
 
 
-    fill(r1, g1, b1);
+    fill(80, 78, 75);
     ellipse(200, 0, 200, 150);
     rect(0, 0, 300, 100);
 
     fill(116, 173, 209);
     ellipse(200, 0, 150, 100);
 
-    fill(r1, g1, b1);
+    fill(80, 78, 75);
     rect(0, 0, 300, 100);
 
     fill(0);
@@ -256,33 +269,39 @@ void car(int y, int carmove, float r1, float g1, float b1, int rands) {
 
 
 
-void wantedcar (int x, int y){
- pushMatrix();
- translate(x,y);
- 
- fill(250,203,126);
- rect(0,0,100,150);
- 
- fill(0);
- textSize(20);
- text("WANTED",10,20);
- 
- scale(0.28,0.28);
- car(300,20,r1,g1,b1,0);
- 
- popMatrix();
-  
+void wantedcar (int x, int y) {
+  pushMatrix();
+  translate(x, y);
+
+  fill(250, 203, 126);
+  rect(0, 0, 100, 150);
+
+  fill(0);
+  textSize(20);
+  text("WANTED", 10, 20);
+
+  scale(0.28, 0.28);
+  car(300, 20, r1, g1, b1, 0);
+
+  popMatrix();
 }
 
 
 
 
-void eyes (int x, int y, int z){
+void eyes (int x, int y, int z) {
   pushMatrix();
-  translate(x,y);
-  fill(255);
-  ellipse(0,0,100,z+2);
-  ellipse(100,0,100,z+2);
-  
+  translate(x, y);
+  fill(255, 0, 0);
+  ellipse(0, 0, 100, z+2);
+
+  ellipse(100, 0, 100, z+2);
+
+  fill(0);
+
+  ellipse(0, 0, 50, 50);
+
+  ellipse(100, 0, 50, 50);
+
   popMatrix();
 }
