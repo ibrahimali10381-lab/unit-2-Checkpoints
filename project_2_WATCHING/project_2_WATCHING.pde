@@ -1,3 +1,19 @@
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
+
+Minim minim;
+AudioPlayer song;
+AudioPlayer drive;
+AudioPlayer drive1;
+AudioPlayer drive2;
+AudioPlayer dragon;
+AudioPlayer click;
+
+
 float movex;
 float x = -20;
 float randmove = 1.0;
@@ -11,6 +27,7 @@ int randcar = 1;
 int p = 0;
 
 int y = 0;
+int cameras;
 
 
 float r1 = random(0, 255);
@@ -24,17 +41,27 @@ PFont font;
 
 PFont SansSerif;
 
+
+
+
 void setup() {
   size(900, 900);
   font = createFont("adrip1.ttf", 60);
   SansSerif = createFont("SansSerif", 60);
-
+  minim = new Minim(this);
+  song = minim.loadFile("song.mp3");
+  drive = minim.loadFile("drive1.mp3");
+  drive1 = minim.loadFile("drive2.mp3");
+  drive2 = minim.loadFile("drive3.mp3");
+  dragon = minim.loadFile("dragon.mp3");
+  click = minim.loadFile("clcik.mp3");
 }
 
 
 
 
 void draw() {
+  dragon.play();
   wall();
   road();
 
@@ -79,6 +106,26 @@ void draw() {
   if (carmovement <-300) {
     carmovement = 950;
     started = false;
+
+    if (int(random(1, 6)) == 1) {
+      drive.play();
+      drive.rewind();
+    } else if (int(random(1, 6)) == 2) {
+      drive1.play();
+      drive1.rewind();
+    } else if (int(random(1, 6)) == 3) {
+      drive2.play();
+      drive2.rewind();
+    } else if (int(random(1, 6)) == 4) {
+      drive.play();
+      drive.rewind();
+    } else if (int(random(1, 6)) == 5) {
+      drive1.play();
+      drive1.rewind();
+    } else if (int(random(1, 6)) == 6) {
+      drive2.play();
+      drive2.rewind();
+    }
   }
 
   wantedcar(100, 350);
@@ -90,12 +137,13 @@ void draw() {
     time = time +1;
     eye_open = true;
 
-    if (time>3500) {
+    if (time>2000) {
       z =0;
       time  = 0;
       eye_open = false;
+      song.pause();
     }
-  } else if (time > 3000) {
+  } else if (time > 1500) {
     s = true;
     eye_open = true;
   } else {
@@ -108,10 +156,33 @@ void draw() {
   if (s == true) {
     z+=1;
     eye_open = true;
+    drive.pause();
+    drive1.pause();
+    drive2.pause();
+
+    song.play();
   }
-  
-  
-  graffiti(290,200, eye_open);
+
+
+  graffiti(290, 200, eye_open);
+
+  if (randcar == 0) {
+    click.play();
+    click.rewind();
+    click.play();
+    click.rewind();
+    click.play();
+    click.rewind();
+    click.play();
+    click.rewind();
+    click.play();
+    click.rewind();
+    click.play();
+    click.rewind();
+    cameras = 1;
+  } else if (cameras > 0) {
+    click.play();
+  }
 }
 
 
@@ -320,13 +391,13 @@ void wantedcar (int x, int y) {
 }
 
 void graffiti(int x, int y, boolean s) {
-  translate(x,y);
+  translate(x, y);
   textFont(font);
-  if (s == true){
-   fill(255,0,0); 
+  if (s == true) {
+    fill(255, 0, 0);
   }
-  
-  text("THEY ARE WATCHING",0,0);
+
+  text("THEY ARE WATCHING", 0, 0);
 }
 
 
